@@ -12,7 +12,7 @@ namespace InputOutputProdutos {
 
             List<TotalProduct> list = new List<TotalProduct>();
             try {
-                using (StreamReader sr = File.OpenText(SourcePath)) {
+                using (StreamReader sr = File.OpenText(SourcePath)) { //leitura do arquivo
                     while (!sr.EndOfStream) {
                         string [] line = sr.ReadLine().Split(',');
                         string NameProduct = line[0];
@@ -21,9 +21,11 @@ namespace InputOutputProdutos {
                         list.Add(new TotalProduct(NameProduct, (Price * Quant)));
                     }
                 }
-                Directory.CreateDirectory(@"C:\Temp\out");
+
+                Directory.CreateDirectory(Path.GetDirectoryName(SourcePath)+@"\out"); //criacao da pasta
                 string TargetPath = @"C:\Temp\out\summary.csv";
-                using (StreamWriter sw = File.AppendText(TargetPath)) {
+
+                using (StreamWriter sw = File.AppendText(TargetPath)) { // gravacao do arquivo
                     foreach(TotalProduct obj in list) {
                         sw.WriteLine(obj.Product + "," + obj.TotalPrice.ToString("F2",CultureInfo.InvariantCulture));
                     }
